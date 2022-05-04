@@ -456,7 +456,7 @@ From our graph we can see that our users are more active during 11am - 2pm and 5
 -   Most of our users do not meet the daily steps requirement of 8,000 steps.
 -   Most of our users barely get the daily recommended 8 hours of sleep.
 -   Our users are mostly active between the hours of 11am -2pm and 5pm - 7pm. This pattern fits users who work in a corporate environment and get to move more during lunch break and closing time.
--   73% of our users used Fitbit to track sleep while just 24% used it to track weight.
+-   63% of our users used Fitbit to track sleep while just 24% used it to track weight.
 
 ## Conclusion
 
@@ -471,15 +471,3 @@ That being said from the analysis we carried out we can make the following sugge
 -   Content related to women health and how it can be monitored with Bellabeat should be sent to users regularly.
 
 Thank you for your audience.
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
