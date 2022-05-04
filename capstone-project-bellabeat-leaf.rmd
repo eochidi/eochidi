@@ -43,7 +43,7 @@ The content was too large to use spreadsheets so I decided to use RStudio which 
 I installed the following packages as they contain the tools I will need to carry out all the tasks in this project.
 
 
-```{r Installing packages, eval=FALSE, include=FALSE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 install.packages("tidyverse")
 install.packages("lubridate")
 install.packages("janitor")
@@ -57,7 +57,7 @@ After installing the packages we need to load their vasious librarys so we can u
 
 
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 library(tidyverse)
 library(lubridate)
 library(janitor)
@@ -73,7 +73,7 @@ my analysis.
 I used the codes below to import the files to dataframes that will be used for the analysis.
 
 
-``````{r importing daily activity, include=FALSE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged.csv")
 daily_sleep <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
 hourly_steps <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/hourlySteps_merged.csv")
@@ -84,7 +84,7 @@ hourly_steps <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/hourlySt
 The following function will be used to check the number of unique Id's in each of our dataframes.
 
 
-```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 n_distinct(daily_activity$Id)
 n_distinct(daily_sleep$Id)
 n_distinct(hourly_steps$Id)
@@ -94,7 +94,7 @@ n_distinct(hourly_steps$Id)
 
 The following functions will be used to check for duplicates in our dataframes.
 
-```{r, collapse=TRUE, echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 sum(duplicated(daily_activity))
 sum(duplicated(daily_sleep))
 sum(duplicated(hourly_steps))
@@ -106,7 +106,7 @@ We see that the daily sleep data frame has 3 duplicate values.
 The code chunk below is used to select the unique Id's and drop duplicate Id's.
 
 
-```{r, collapse=TRUE,echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity <- daily_activity %>%
   distinct() %>%
   drop_na()
@@ -123,7 +123,7 @@ hourly_steps <- hourly_steps %>%
 
 We will use the same function to check if the duplicate
 
-```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 sum(duplicated(daily_sleep))
 ```
 
@@ -136,7 +136,7 @@ change their column names to Date to make it easier when I merge tables.
 The hourly steps table I will change the format from character to date, and change the column name to date_time.
 
 
-```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity <- daily_activity %>%
   rename(Date = ActivityDate) %>%
   mutate(Date = as_date(Date, format = "%m/%d/%Y"))
@@ -145,7 +145,7 @@ head(daily_activity)
 
 daily sleep
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_sleep <- daily_sleep %>%
   rename(Date = SleepDay) %>%
   mutate(Date = as_date(Date,format ="%m/%d/%Y %I:%M:%S %p" , tz=Sys.timezone()))
@@ -154,7 +154,7 @@ head(daily_sleep)
 
 Hourly Steps
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 hourly_steps<- hourly_steps %>% 
   rename(date_time = ActivityHour) %>% 
   mutate(date_time = as.POSIXct(date_time,format ="%m/%d/%Y %I:%M:%S %p" , tz=Sys.timezone()))
@@ -168,7 +168,7 @@ head(hourly_steps)
 I will check for patterns and correlations in the daily activity, trimming it smaller sizes and summarising the dat
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity %>%
   select(Id, Date, TotalSteps,Calories)%>%
   summary()
@@ -177,7 +177,7 @@ daily_activity %>%
 And also check for patterns in active minutes
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity %>%
   select(
     VeryActiveMinutes, FairlyActiveMinutes, 
@@ -192,7 +192,7 @@ We notice by checking the mean minutes that our users spend more time in sedenta
 Plot a scatter plot to view the correlation between total steps and calories
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 ggplot(data=daily_activity, aes(x=TotalSteps, y=Calories)) + 
   geom_point() + geom_smooth() + labs(title="Total Steps vs. Calories")
 ```
@@ -201,7 +201,7 @@ ggplot(data=daily_activity, aes(x=TotalSteps, y=Calories)) +
 Calculate the correlation coefficient.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 total_steps <- daily_activity$TotalSteps
 calories <- daily_activity$Calories
 cor(total_steps, calories)
@@ -219,7 +219,7 @@ We get our guide on activity levels from [www.10000steps.org](https://www.10000s
 Group users by steps taken
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_average_steps <- daily_activity %>%
   group_by(Id) %>%
   summarise (mean_steps = mean(TotalSteps))
@@ -230,7 +230,7 @@ head(daily_average_steps)
 Group users according to average steps taken per day
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 user_group <- daily_average_steps %>%
   mutate(user_group = case_when(
     mean_steps < 5000 ~ "sedentary",
@@ -246,7 +246,7 @@ head(user_group)
 Group user group sizes by percentage.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 user_group_size <- user_group %>%
   group_by(user_group) %>%
   summarise(total = n()) %>%
@@ -263,7 +263,7 @@ head(user_group_size)
 Now we plot a column chart to better visualize our user groups
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 ggplot(user_group_size)+
   geom_col(mapping = aes(user_group, size,fill=user_group))+
   labs(title="User group distribution", x=NULL) +
@@ -280,7 +280,7 @@ ggplot(user_group_size)+
 Next we analyze the daily sleep table We check for correlation between time in bed and time asleep
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 ggplot(data=daily_sleep, aes(x=TotalMinutesAsleep, y=TotalTimeInBed)) + 
   geom_point() + geom_smooth() + labs(title="Time in bed Vs Minutes Asleep", x="Minutes Asleep", y = "Time in bed")
 ```
@@ -289,7 +289,7 @@ ggplot(data=daily_sleep, aes(x=TotalMinutesAsleep, y=TotalTimeInBed)) +
 Next we calculate the correlation coefficient.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 minutes_asleep <- daily_sleep$TotalMinutesAsleep
 time_in_bed <- daily_sleep$TotalTimeInBed
 cor(minutes_asleep, time_in_bed)
@@ -303,7 +303,7 @@ We notice a very strong positive correlation between time in bed and time asleep
 We will now merge the daily activities data frame with the daily sleep data frame to find patterns and correlation between daily activities and sleep.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 daily_activity_sleep <- merge(daily_activity, daily_sleep, by=c ("Id", "Date"))
 str(daily_activity_sleep)
 n_distinct(daily_activity_sleep$Id)
@@ -324,7 +324,7 @@ ggplot(data=daily_activity_sleep, aes(x=TotalSteps, y=TotalMinutesAsleep)) +
 Calculate correlation coefficient
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 total_daily_steps <- daily_activity_sleep$TotalSteps
 time_asleep <- daily_activity_sleep$TotalMinutesAsleep
 cor(total_daily_steps, time_asleep)
@@ -346,7 +346,7 @@ ggplot(data=daily_activity_sleep, aes(x=SedentaryMinutes, y=TotalMinutesAsleep))
 We now calculate the correlation coefficient:
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 sedentary_mins <- daily_activity_sleep$SedentaryMinutes
 time_asleep <- daily_activity_sleep$TotalMinutesAsleep
 cor(sedentary_mins, time_asleep)
@@ -365,7 +365,7 @@ Therefore we can say the more time spent in sedentary minutes negatively affects
 Now we look at how many steps our users take each day of the week and observe their sleep patterns on a daily basis.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 weekday_steps <- daily_activity %>%
   mutate(weekday = weekdays(Date))
 
@@ -376,7 +376,7 @@ weekday_steps$weekday <-ordered(weekday_steps$weekday, levels=c("Monday", "Tuesd
 Group and summarize average daily steps by days of the week.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 
 weekday_steps <-weekday_steps%>%
   group_by(weekday) %>%
@@ -388,7 +388,7 @@ head(weekday_steps)
 Visualize average steps taken on a daily basis
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 ggplot(weekday_steps) +
   geom_col(aes(weekday, daily_steps), fill = "#007799") +
   labs(title = "Average steps taken on a daily basis", x= "", y = "") +
@@ -396,13 +396,13 @@ ggplot(weekday_steps) +
 ```
 
 
-> Takeaway: We notice that most of our users don't meet the daily step requirement of 8000 steps.
+> Takeaway: We notice that most of our users do not meet the daily step requirement of 8000 steps.
 
 
 We also analyze sleep patterns on a daily basis.
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 weekday_sleep <- daily_sleep %>%
   mutate(weekday = weekdays(Date))
 weekday_sleep$weekday <-ordered(weekday_sleep$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday",   "Friday", "Saturday", "Sunday"))
@@ -412,7 +412,7 @@ weekday_sleep$weekday <-ordered(weekday_sleep$weekday, levels=c("Monday", "Tuesd
 Group average minutes asleep on a daily basie
 
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 weekday_sleep <-weekday_sleep%>%
   group_by(weekday) %>%
   summarize (daily_sleep = mean(TotalMinutesAsleep))
@@ -437,7 +437,7 @@ ggplot(weekday_sleep) +
 
 Next we analyse the hourly steps to understand average steps taken on an hourly basis.
 
-```{r echo=TRUE}
+```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 hourly_steps <- hourly_steps %>%
   separate(date_time, into = c("date", "time"), sep= " ") %>%
   mutate(date = ymd(date))
