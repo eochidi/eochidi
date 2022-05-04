@@ -39,7 +39,7 @@ The content was too large to use spreadsheets so I decided to use RStudio which 
 I installed the following packages as they contain the tools I will need to carry out all the tasks in this project.
 
 
-```{r include=FALSE}
+```{r results=FALSE}
 install.packages("tidyverse")
 install.packages("lubridate")
 install.packages("janitor")
@@ -53,7 +53,7 @@ After installing the packages we need to load their vasious librarys so we can u
 
 
 
-```{r}
+```{r results=FALSE}
 library(tidyverse)
 library(lubridate)
 library(janitor)
@@ -69,7 +69,7 @@ my analysis.
 I used the codes below to import the files to dataframes that will be used for the analysis.
 
 
-```{r include=FALSE}
+```{r results=FALSE}
 daily_activity <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged.csv")
 daily_sleep <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
 hourly_steps <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/hourlySteps_merged.csv")
