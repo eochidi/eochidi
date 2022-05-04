@@ -69,7 +69,7 @@ my analysis.
 I used the codes below to import the files to dataframes that will be used for the analysis.
 
 
-```{r results=FALSE}
+```{r results='hold'}
 daily_activity <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged.csv")
 daily_sleep <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
 hourly_steps <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/hourlySteps_merged.csv")
