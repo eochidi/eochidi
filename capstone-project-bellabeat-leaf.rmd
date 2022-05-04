@@ -94,7 +94,7 @@ n_distinct(hourly_steps$Id)
 
 The following functions will be used to check for duplicates in our dataframes.
 
-```{r echo=TRUE}
+``````{r, collapse=TRUE,echo=TRUE}
 sum(duplicated(daily_activity))
 sum(duplicated(daily_sleep))
 sum(duplicated(hourly_steps))
