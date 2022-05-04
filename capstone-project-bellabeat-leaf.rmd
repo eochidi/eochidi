@@ -1,3 +1,30 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@eochidi 
+eochidi
+/
+eochidi
+Public
+Code
+Pull requests
+Actions
+Projects
+Security
+Insights
+Settings
+eochidi/capstone-project-bellabeat-leaf.rmd
+@eochidi
+eochidi Kaggle Notebook | Capstone Project: Bellabeat leaf | Version 9
+Latest commit 6e2d0df 22 minutes ago
+ History
+ 1 contributor
+490 lines (319 sloc)  16.3 KB
+   
 ---
 
 ---
@@ -110,7 +137,6 @@ The code chunk below is used to select the unique Id's and drop duplicate Id's.
 daily_activity <- daily_activity %>%
   distinct() %>%
   drop_na()
-
 daily_sleep <- daily_sleep %>%
   distinct() %>%
   drop_na()
@@ -211,7 +237,6 @@ We notice a moderately positive correlation, this may be as a result of the limi
 Since its a positive correlation none the less, we can assume that more steps leads to more calories used.
 
 > Key takeaway: There is a positive correlation between total steps taken and calories burnt.
-
 Next we will classify our users into user groups according to the time they spend in active minutes.
 We will use the total steps taken to classify our users into these groups.
 We get our guide on activity levels from [www.10000steps.org](https://www.10000steps.org.au/articles/counting-steps/)
@@ -238,7 +263,6 @@ user_group <- daily_average_steps %>%
     mean_steps >= 7500 & mean_steps <= 9999 ~ "moderately active", 
     mean_steps >= 10000 ~ "very active"
   ))
-
 head(user_group)
 ```
 
@@ -254,7 +278,6 @@ user_group_size <- user_group %>%
   group_by(user_group) %>%
   summarise(total_percent = total / totals) %>%
   mutate(size = scales::percent(total_percent))
-
 user_group_size$user_group <- factor(user_group_size$user_group , levels = c("very active", "moderately active", "lightly active", "sedentary"))
 head(user_group_size)
 ```
@@ -272,7 +295,6 @@ ggplot(user_group_size)+
 
 
 > key takeaway: Our users spend the most time in moderately and lightly active minutes
-
 
 ### Analyze the daily sleep data
 
@@ -299,7 +321,6 @@ cor(minutes_asleep, time_in_bed)
 We notice a very strong positive correlation between time in bed and time asleep.
 
 >Key takeaway: A strong correlation between time in bed and minutes asleep
-
 We will now merge the daily activities data frame with the daily sleep data frame to find patterns and correlation between daily activities and sleep.
 
 
@@ -334,7 +355,6 @@ cor(total_daily_steps, time_asleep)
 We did not notice any correlation between total steps and total minutes asleep.
 
 > Key takeaway: No correlation between total steps and sleep
-
 Next we check for correlation between sedentary minutes and total minutes asleep.
 
 
@@ -359,7 +379,6 @@ Therefore we can say the more time spent in sedentary minutes negatively affects
 
 > Takeaway: The more time spent in sedentary minutes negativly affects sleep.
 
-
 ### Analyze steps and sleep patterns on a daily basis
 
 Now we look at how many steps our users take each day of the week and observe their sleep patterns on a daily basis.
@@ -368,7 +387,6 @@ Now we look at how many steps our users take each day of the week and observe th
 ```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
 weekday_steps <- daily_activity %>%
   mutate(weekday = weekdays(Date))
-
 weekday_steps$weekday <-ordered(weekday_steps$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday",                                "Friday", "Saturday", "Sunday"))
 ```
 
@@ -377,7 +395,6 @@ Group and summarize average daily steps by days of the week.
 
 
 ```{r echo=TRUE, collapse=TRUE, comment="#>", paged.print=TRUE}
-
 weekday_steps <-weekday_steps%>%
   group_by(weekday) %>%
   summarize (daily_steps = mean(TotalSteps))
@@ -397,7 +414,6 @@ ggplot(weekday_steps) +
 
 
 > Takeaway: We notice that most of our users do not meet the daily step requirement of 8000 steps.
-
 
 We also analyze sleep patterns on a daily basis.
 
@@ -432,7 +448,6 @@ ggplot(weekday_sleep) +
 
 > Takeaway: Most of our users barely get the recommended daily sleep of 8 hours.
 
-
 ### Analyse Hourly Steps
 
 Next we analyse the hourly steps to understand average steps taken on an hourly basis.
@@ -462,7 +477,6 @@ hourly_steps %>%
 From our graph we can see that our users are more active during 11am - 2pm and 5pm - 7pm
 
 > Key takeaway: Our users are mostly corporate workere that get to move around more during lunch time and closing hours.
-
 ## Summary
 
 -   There is a positive correlation between total steps and calories.
@@ -488,3 +502,15 @@ That being said from the analysis we carried out we can make the following sugge
 -   Content related to women health and how it can be monitored with Bellabeat should be sent to users regularly.
 
 Thank you for your audience.
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
