@@ -84,7 +84,7 @@ hourly_steps <- read_csv("../input/fitbit/Fitabase Data 4.12.16-5.12.16/hourlySt
 The following function will be used to check the number of unique Id's in each of our dataframes.
 
 
-```{r echo=TRUE}
+```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
 n_distinct(daily_activity$Id)
 n_distinct(daily_sleep$Id)
 n_distinct(hourly_steps$Id)
@@ -94,7 +94,7 @@ n_distinct(hourly_steps$Id)
 
 The following functions will be used to check for duplicates in our dataframes.
 
-``````{r, collapse=TRUE,echo=TRUE}
+```{r, collapse=TRUE, echo=TRUE}
 sum(duplicated(daily_activity))
 sum(duplicated(daily_sleep))
 sum(duplicated(hourly_steps))
@@ -106,7 +106,7 @@ We see that the daily sleep data frame has 3 duplicate values.
 The code chunk below is used to select the unique Id's and drop duplicate Id's.
 
 
-```{r echo=TRUE}
+```{r, collapse=TRUE,echo=TRUE}
 daily_activity <- daily_activity %>%
   distinct() %>%
   drop_na()
@@ -123,7 +123,7 @@ hourly_steps <- hourly_steps %>%
 
 We will use the same function to check if the duplicate
 
-```{r echo=TRUE}
+```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
 sum(duplicated(daily_sleep))
 ```
 
@@ -136,7 +136,7 @@ change their column names to Date to make it easier when I merge tables.
 The hourly steps table I will change the format from character to date, and change the column name to date_time.
 
 
-```{r echo=TRUE}
+```{r, collapse=TRUE, comment="#>" ,echo=TRUE}
 daily_activity <- daily_activity %>%
   rename(Date = ActivityDate) %>%
   mutate(Date = as_date(Date, format = "%m/%d/%Y"))
